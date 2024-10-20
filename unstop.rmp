@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="10.5.000">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="10.5.000" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="image_processing:read_image" compatibility="0.5.000" expanded="true" height="68" name="Read Image" width="90" x="112" y="34">
+        <parameter key="file_type" value="Image"/>
+        <parameter key="show_pdf_options" value="true"/>
+        <parameter key="image_type" value="Gray"/>
+        <parameter key="dpi" value="300"/>
+        <parameter key="read_all_pages" value="false"/>
+        <parameter key="enforce_pdf" value="false"/>
+      </operator>
+      <operator activated="true" class="image_processing:image_to_description_table" compatibility="0.5.000" expanded="true" height="82" name="Extract Image Information" width="90" x="246" y="34">
+        <parameter key="enable_macros" value="true"/>
+        <parameter key="macro_for_type" value="Type"/>
+        <parameter key="macro_for_width" value="Width"/>
+        <parameter key="macro_for_height" value="Height"/>
+        <parameter key="macro_for_channels" value="Channel"/>
+        <parameter key="macro_for_sub_images" value="Regions"/>
+      </operator>
+      <operator activated="true" class="image_processing:resize_image" compatibility="0.5.000" expanded="true" height="82" name="Resize Image" width="90" x="179" y="187">
+        <parameter key="width" value="100"/>
+        <parameter key="height" value="100"/>
+      </operator>
+      <operator activated="true" class="image_processing:rotate_image" compatibility="0.5.000" expanded="true" height="82" name="Rotate Image" width="90" x="313" y="187">
+        <parameter key="rotation_angle" value="90.0"/>
+      </operator>
+      <operator activated="true" class="image_processing:flip_image" compatibility="0.5.000" expanded="true" height="82" name="Flip Image" width="90" x="447" y="187">
+        <parameter key="flip_mode" value="Horizontal"/>
+      </operator>
+      <operator activated="true" class="image_processing:invert_image" compatibility="0.5.000" expanded="true" height="82" name="Invert Image" width="90" x="581" y="187"/>
+      <operator activated="true" class="image_processing:img_to_table" compatibility="0.5.000" expanded="true" height="82" name="Image to Table" width="90" x="715" y="85"/>
+      <connect from_port="input 1" to_op="Read Image" to_port="file"/>
+      <connect from_op="Read Image" from_port="img" to_op="Extract Image Information" to_port="image"/>
+      <connect from_op="Extract Image Information" from_port="ori" to_op="Resize Image" to_port="image input"/>
+      <connect from_op="Resize Image" from_port="ori" to_op="Rotate Image" to_port="image input"/>
+      <connect from_op="Rotate Image" from_port="ori" to_op="Flip Image" to_port="image input"/>
+      <connect from_op="Flip Image" from_port="ori" to_op="Invert Image" to_port="image input"/>
+      <connect from_op="Invert Image" from_port="ori" to_op="Image to Table" to_port="img"/>
+      <connect from_op="Image to Table" from_port="ori" to_port="result 1"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="source_input 2" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+    </process>
+  </operator>
+</process>

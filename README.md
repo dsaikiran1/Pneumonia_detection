@@ -74,7 +74,5 @@ Implemented in [`PneumoniaCNN`](Untitled.ipynb):
 - AUC and test accuracy are printed after evaluation.
 - AUC: 92.63%,Test Accuracy: 72.92%
 - Confusion matrix and ROC curve are saved as images.
-
-## License
-
-This project is
+- True Positives: 363, False Positives: 60
+- True Negatives: 174, False Negatives: 27
